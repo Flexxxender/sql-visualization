@@ -9,8 +9,7 @@ create table table1 as
         cost
     from prod_v_dds.order
     where canceled_flg != 1
-
-distributed by (order_id, calendar_dt);
+;
 
 
 drop table if exists table2;
@@ -27,8 +26,7 @@ create table table2 as
         on t1.calendar_dt = t2.calendar_dt
         and t2.day_desc != 'Выходной'
     where t1.calendar_dt >= '2025-01-01'::date
-
-distributed by (order_id, calendar_dt);
+;
 
 
 drop table if exists res_table;
@@ -40,8 +38,7 @@ create table res_table as
     from table2
     group by calendar_dt
     having daily_cost > 1000
-
-distributed by (calendar_dt);
+;
 
 grant select on res_table to public;
 
