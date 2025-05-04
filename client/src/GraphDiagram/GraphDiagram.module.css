@@ -10,3 +10,35 @@
     width: 100%;
     height: 100%;
 }
+
+.node:hover {
+    border-color: #888;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.fullscreenButton {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 10;
+}
+
+.fullscreenButton button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    width: 36px;
+    height: 36px;
+}
+
+.fullscreenIcon {
+    width: 16px;
+    height: 16px;
+}

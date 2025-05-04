@@ -53,17 +53,19 @@ class Parser:
                 self._add_node(source_name, node_type)
                 self._add_edge(self.nodes[source_name], self.nodes[target_table_name])
 
+        self._find_attributes(create)
+
     def _process_drop(self, drop: exp.Drop):
         """Обработка DROP TABLE"""
         for node in drop.find_all(exp.Table):
-            table_name = node.name.lower()
+            table_name = '.'.join(filter(None, [node.db, node.name])).lower()
             if table_name in self._created_tables:
                 self.nodes[table_name].table.was_deleted = True
 
     def _process_grant(self, grant: exp.Grant):
         """Обработка GRANT"""
         for node in grant.find_all(exp.Table):
-            table_name = node.name.lower()
+            table_name = '.'.join(filter(None, [node.db, node.name])).lower()
             if table_name in self.nodes:
                 self.nodes[table_name].type = NodeType.RESULT
 
@@ -98,6 +100,14 @@ class Parser:
             if edge.source.type == NodeType.EXCESS or edge.target.type == NodeType.EXCESS:
                 edge.type = EdgeType.EXCESS
 
+    def _find_attributes(self, create: exp.Create):
+        """Определение полей таблицы"""
+        target_table_name = '.'.join(filter(None, [create.this.db, create.this.name])).lower()
+        for stmt in create.find(exp.Select).args["expressions"]:
+            if isinstance(stmt, exp.Alias):
+                self.nodes[target_table_name].table.attributes.add(stmt.text("alias"))
+            elif isinstance(stmt, exp.Column):
+                self.nodes[target_table_name].table.attributes.add(stmt.text("this"))
 
     def _add_node(self, table_name: str, node_type: NodeType):
         """Добавляет или обновляет ноду"""

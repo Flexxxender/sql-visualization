@@ -3,7 +3,6 @@ import axios from 'axios';
 import GraphDiagram from "./GraphDiagram/GraphDiagram";
 import 'reactflow/dist/style.css';
 import SQLCodeEditor from './SqlCodeEditor/SQLCodeEditor';
-import {exportToPDF} from './Utils/exportToPDF';
 import {formatError} from './Utils/formatError';
 import GraphModal from './GraphDiagram/GraphModal'
 import styles from './App.module.css';
@@ -36,15 +35,6 @@ function App() {
         }
     };
 
-    const handleExportToPDF = async () => {
-        if (!result) return;
-        try {
-            await exportToPDF(reactFlowWrapper.current);
-        } catch (error) {
-            setError({message: 'Не удалось экспортировать диаграмму в PDF'});
-        }
-    };
-
     return (
         <div className={styles.appContainer}>
             <div className={styles.card}>
@@ -53,7 +43,7 @@ function App() {
                 <SQLCodeEditor value={sql} onChange={setSql}/>
 
                 <div className={styles.buttonCenter}>
-                    <button className={styles.button} onClick={handleAnalyzeSQL}>Анализировать</button>
+                    <button className={styles.button} onClick={handleAnalyzeSQL}>Visualise query</button>
                 </div>
 
                 {error && (
@@ -62,33 +52,24 @@ function App() {
                             <div className={styles.errorIcon}>
                                 !
                             </div>
-                            <h3 style={{margin: 0}}>Ошибка выполнения запроса</h3>
+                            <h3 style={{margin: 0}}>Error</h3>
                         </div>
                         <div className={styles.errorDetails}>
                             {formatError(error)}
                         </div>
                         <div className={styles.errorHint}>
-                            Проверьте синтаксис SQL и попробуйте снова
+                            Check the SQL-code and try again
                         </div>
                     </div>
                 )}
 
                 {showGraph && result && (
                     <div className={styles.graphWrapper} ref={reactFlowWrapper}>
-                        <GraphDiagram data={result}/>
-                    </div>
-                )}
-
-                {showGraph && result && (
-                    <>
-                        <div className={styles.buttonRow}>
-                            <button className={styles.button} onClick={handleExportToPDF}>Экспорт в PDF</button>
-                            <button className={styles.button} onClick={handleOpenFullScreen}>Открыть на весь экран</button>
-                        </div>
+                        <GraphDiagram data={result} onOpenFullscreen={handleOpenFullScreen}/>
                         {isModalOpen && (
                             <GraphModal data={result} onClose={handleCloseFullScreen}/>
                         )}
-                    </>
+                    </div>
                 )}
             </div>
         </div>

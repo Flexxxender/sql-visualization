@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .table import Table
+from models.table import Table
 from enum import Enum
 from typing import Dict
 
@@ -25,6 +25,7 @@ class Node:
         return {
             "name": self.table.name,
             "was_deleted": self.table.was_deleted,
+            "attributes": self.table.attributes,
             "type": self.type.value
         }
 
@@ -41,11 +42,13 @@ class Edge:
             "source": {
                 "name": self.source.table.name,
                 "was_deleted": self.source.table.was_deleted,
+                "attributes": self.source.table.attributes,
                 "type": self.source.type.value
             },
             "target": {
                 "name": self.target.table.name,
                 "was_deleted": self.target.table.was_deleted,
+                "attributes": self.target.table.attributes,
                 "type": self.target.type.value
             },
             "type": self.type.value

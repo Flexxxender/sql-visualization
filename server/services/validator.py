@@ -16,7 +16,7 @@ class Validator:
         # Ищем все GRANT statements
         grant_tables_cnt = self.__check_grant_tables_cnt(statements)
         if grant_tables_cnt != 1:
-            return f"ETL-process must have only 1 result table. You have {grant_tables_cnt} tables"
+            return f"ETL-process must have only 1 result table. You have {grant_tables_cnt} tables. \nUse grants on result table."
 
         return None
 

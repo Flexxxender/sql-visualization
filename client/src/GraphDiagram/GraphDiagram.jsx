@@ -4,8 +4,14 @@ import Legend from './Legend';
 import {getLayoutedElements} from './layoutUtils';
 import {getEdgeStyle, getNodeStyle} from './graphStyles';
 import styles from './GraphDiagram.module.css';
+import CustomNode from './CustomNode';
+import fullscreenIcon from '../assets/fullscreen-icon.png';
 
-const GraphDiagram = ({data, fullscreen = false}) => {
+const nodeTypes = {
+    custom: CustomNode,
+};
+
+const GraphDiagram = ({data, fullscreen = false, onOpenFullscreen}) => {
 
     const convertDataToElements = (data) => {
         const nodes = [];
@@ -19,7 +25,13 @@ const GraphDiagram = ({data, fullscreen = false}) => {
             if (!nodeIds.has(sourceId)) {
                 nodes.push({
                     id: sourceId,
-                    data: {label: sourceId},
+                    type: 'custom',
+                    data: {
+                        label: sourceId,
+                        fields: edge.source.table.attributes,
+                        type: edge.source.type
+                    },
+                    className: styles.node,
                     style: getNodeStyle(edge.source.type, edge.source.table.was_deleted),
                 });
                 nodeIds.add(sourceId);
@@ -28,7 +40,13 @@ const GraphDiagram = ({data, fullscreen = false}) => {
             if (!nodeIds.has(targetId)) {
                 nodes.push({
                     id: targetId,
-                    data: {label: targetId},
+                    type: 'custom',
+                    data: {
+                        label: targetId,
+                        fields: edge.target.table.attributes,
+                        type: edge.target.type
+                    },
+                    className: styles.node,
                     style: getNodeStyle(edge.target.type, edge.target.table.was_deleted),
                 });
                 nodeIds.add(targetId);
@@ -55,12 +73,20 @@ const GraphDiagram = ({data, fullscreen = false}) => {
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
+                nodeTypes={nodeTypes}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 fitView
             >
                 <Background/>
                 <Legend fullscreen={fullscreen}/>
+                {!fullscreen && (
+                    <div className={styles.fullscreenButton}>
+                        <button onClick={onOpenFullscreen}>
+                            <img src={fullscreenIcon} alt="Fullscreen" className={styles.fullscreenIcon} />
+                        </button>
+                    </div>
+                )}
             </ReactFlow>
         </div>
     );

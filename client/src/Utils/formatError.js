@@ -1,7 +1,6 @@
 export const formatError = (error) => {
     if (!error) return null;
 
-    // Обработка ошибок в формате { detail: { errors: [...] } }
     if (error.detail?.errors) {
         return (
             <div>
@@ -29,11 +28,9 @@ export const formatError = (error) => {
         );
     }
 
-    // Обработка строковых ошибок
     if (typeof error === 'string') {
         return <div style={{whiteSpace: 'pre-wrap'}}>{error}</div>;
     }
 
-    // Обработка других форматов ошибок
     return <pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(error, null, 2)}</pre>;
 };

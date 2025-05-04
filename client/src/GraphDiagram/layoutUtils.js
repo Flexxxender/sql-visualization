@@ -6,7 +6,7 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 export const calculateNodeWidth = (text) => {
     const baseWidth = 50;
     const charWidth = 6;
-    return Math.min(baseWidth + (text.length * charWidth), 300);
+    return Math.min(30 + baseWidth + (text.length * charWidth), 300);
 };
 
 export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
@@ -20,8 +20,8 @@ export const getLayoutedElements = (nodes, edges, direction = 'TB') => {
 
         node.style = {
             ...node.style,
-            width: nodeWidth,
-            height: nodeHeight,
+            minWidth: nodeWidth,
+            minHeight: nodeHeight,
             padding: '6px 8px',
             display: 'flex',
             alignItems: 'center',

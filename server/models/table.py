@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Set, Optional
 
 
 class Attribute:
@@ -7,7 +7,7 @@ class Attribute:
 
 
 class Table:
-    def __init__(self, name: str, was_deleted: bool = False, attributes: Optional[List[Attribute]] = None):
+    def __init__(self, name: str, was_deleted: bool = False, attributes: Optional[Set[Attribute]] = None):
         self.name = name
-        self.attributes = attributes or []
+        self.attributes = attributes or set()
         self.was_deleted = was_deleted

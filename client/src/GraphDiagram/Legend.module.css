@@ -5,7 +5,7 @@
     top: 10px;
     right: 10px;
     background-color: white;
-    padding: 10px 12px;
+    padding: 10px 10px;
     border-radius: 6px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     z-index: 5;
@@ -47,16 +47,17 @@
 }
 
 .toggleButton {
-    top: 2px;
-    right: 8px;
     background: transparent;
     border: none;
     font-size: 20px;
     cursor: pointer;
     z-index: 10;
     align-self: start;
+    width: 36px;
+    height: 36px;
 }
 
-.toggleButtonRotated{
-    transform: rotate(45deg);
+.closeIcon {
+    width: 16px;
+    height: 16px;
 }

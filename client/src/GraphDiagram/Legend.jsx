@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import styles from './Legend.module.css';
+import closeIcon from "../assets/close-icon.png";
+import openIcon from "../assets/open-icon.png"
 
 const legendTables = [
-    {color: '#d4edda', label: 'Исходная таблица'},
-    {color: '#d7cfe2', label: 'Промежуточная таблица'},
-    {color: '#cce5ff', label: 'Результирующая таблица'},
-    {color: '#f8d7da', label: 'Лишняя таблица'},
-    {color: '#fff3cd', label: 'Не удаленная таблица'},
+    {color: '#d4edda', label: 'Origin table'},
+    {color: '#d7cfe2', label: 'Temp table'},
+    {color: '#cce5ff', label: 'Result table'},
+    {color: '#f8d7da', label: 'Excess table'},
+    {color: '#fff3cd', label: 'Not deleted table'},
 ];
 
 const legendEdges = [
-    {color: '#a8adb2', label: 'Нужное ребро'},
-    {color: '#e77681', label: 'Лишнее ребро'}
+    {color: '#a8adb2', label: 'Necessary edge'},
+    {color: '#e77681', label: 'Unnecessary edge'}
 ];
 
 const Legend = ({fullscreen = false}) => {
@@ -23,11 +25,9 @@ const Legend = ({fullscreen = false}) => {
 
     return (
         <div className={`${styles.legend} ${fullscreen ? styles.legendFullscreen : ''}`}>
-
-
             {isVisible && (
                 <div>
-                    <h4>Таблицы</h4>
+                    <h4>Tables</h4>
                     {legendTables.map((item, index) => (
                         <div key={index} className={styles.legendRow}>
                             <div
@@ -38,9 +38,9 @@ const Legend = ({fullscreen = false}) => {
                         </div>
                     ))}
 
-                    <div className={styles.legendSeparator} />
+                    <div className={styles.legendSeparator}/>
 
-                    <h4>Ребра</h4>
+                    <h4>Edges</h4>
                     {legendEdges.map((item, index) => (
                         <div key={index} className={styles.legendRow}>
                             <div
@@ -52,8 +52,8 @@ const Legend = ({fullscreen = false}) => {
                     ))}
                 </div>
             )}
-            <button className={`${styles.toggleButton} ${isVisible ? '': styles.toggleButtonRotated}`} onClick={toggleVisibility}>
-                ✕
+            <button className={styles.toggleButton} onClick={toggleVisibility}>
+                <img src={isVisible ? closeIcon : openIcon} alt="Fullscreen" className={styles.closeIcon}/>
             </button>
         </div>
     );
